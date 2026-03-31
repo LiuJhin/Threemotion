@@ -26,6 +26,7 @@ export {
   type MotionPresetOptions,
   type MotionPresetState,
 } from "./core/MotionPresets";
+export { ScrollSync, type ScrollSyncOptions } from "./core/ScrollSync";
 export {
   disposeRenderer,
   disposeThreeObject,

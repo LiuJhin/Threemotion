@@ -159,6 +159,19 @@ export class CameraDirector {
     options: DirectorTransitionOptions = {},
   ): gsap.core.Timeline {
     this.activeAnimation?.kill();
+    const timeline = gsap.timeline();
+
+    this.addToTimeline(timeline, target, options, 0);
+    this.activeAnimation = timeline;
+    return timeline;
+  }
+
+  addToTimeline(
+    timeline: gsap.core.Timeline,
+    target: string | DirectorShot,
+    options: DirectorTransitionOptions = {},
+    at: gsap.Position = 0,
+  ): gsap.core.Timeline {
     const override: Partial<DirectorShot> = {
       position: options.position,
       rotation: options.rotation,
@@ -167,10 +180,8 @@ export class CameraDirector {
       zoom: options.zoom,
     };
     const shot = this.resolveShot(target, override);
-    const timeline = gsap.timeline();
 
-    this.addShotToTimeline(timeline, shot, options, 0);
-    this.activeAnimation = timeline;
+    this.addShotToTimeline(timeline, shot, options, at);
     return timeline;
   }
 

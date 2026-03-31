@@ -115,6 +115,49 @@ motion.transitionTo("closeup", {
 });
 ```
 
+## ScrollSync
+
+Drive Three.js transforms from the native HTML scroll bar with GSAP `scrub` smoothing.
+
+```ts
+const scroll = motion.scrollSync({
+  trigger: ".story",
+  start: "top top",
+  end: "+=2400",
+  scrub: 1.2,
+  pin: true,
+});
+
+scroll
+  .to(
+    cube,
+    {
+      position: { y: 1.5, z: -2 },
+      rotation: { y: Math.PI * 1.5 },
+      ease: "none",
+    },
+    0,
+  )
+  .shot(
+    {
+      position: { x: 0, y: 1.2, z: 4 },
+      lookAt: cube,
+      fov: 38,
+    },
+    { duration: 1, ease: "none" },
+    0.35,
+  )
+  .to(
+    cube,
+    {
+      position: { y: -1 },
+      rotation: { x: Math.PI * 0.5 },
+      ease: "none",
+    },
+    0.7,
+  );
+```
+
 ## Cleanup
 
 Always dispose when tearing down a scene to avoid GPU leaks and GSAP ticker buildup.
@@ -122,4 +165,3 @@ Always dispose when tearing down a scene to avoid GPU leaks and GSAP ticker buil
 ```ts
 motion.dispose();
 ```
-# Threemotion

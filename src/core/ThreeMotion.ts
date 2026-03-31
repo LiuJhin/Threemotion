@@ -33,6 +33,7 @@ import {
   type MotionPresetName,
   type MotionPresetOptions,
 } from "./MotionPresets";
+import { ScrollSync, type ScrollSyncOptions } from "./ScrollSync";
 
 export interface Size {
   width: number;
@@ -266,6 +267,7 @@ export class ThreeMotion {
   private readonly container: HTMLElement | null;
   private readonly autoRender: boolean;
   private readonly tickCallbacks = new Set<TickCallback>();
+  private readonly scrollSyncs = new Set<ScrollSync>();
   private readonly handleResize = (): void => {
     this.resize();
   };
@@ -441,6 +443,23 @@ export class ThreeMotion {
     return this.director.take(target, options);
   }
 
+  createScrollSync(options?: ScrollSyncOptions): ScrollSync {
+    const sync = new ScrollSync(this, options);
+    this.scrollSyncs.add(sync);
+    return sync;
+  }
+
+  scrollSync(options?: ScrollSyncOptions): ScrollSync {
+    return this.createScrollSync(options);
+  }
+
+  /**
+   * Internal cleanup hook used by `ScrollSync.kill()`.
+   */
+  detachScrollSync(sync: ScrollSync): void {
+    this.scrollSyncs.delete(sync);
+  }
+
   to(
     target: object,
     vars: ThreeObjectTweenVars,
@@ -496,6 +515,8 @@ export class ThreeMotion {
     });
 
     [...this.scene.children].forEach((child) => disposeThreeObject(child));
+    [...this.scrollSyncs].forEach((sync) => sync.kill(false));
+    this.scrollSyncs.clear();
     this.tickCallbacks.clear();
     this.director.dispose();
     this.presets.clear();
