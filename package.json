@@ -1,0 +1,38 @@
+{
+  "name": "threemotion",
+  "version": "0.1.0",
+  "description": "A high-performance bridge between Three.js and GSAP.",
+  "type": "module",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "three": ">=0.150.0",
+    "gsap": ">=3.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.30",
+    "@types/three": "^0.160.0",
+    "gsap": "^3.12.7",
+    "three": "^0.160.0",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.19",
+    "vite-plugin-dts": "^3.9.1"
+  }
+}
